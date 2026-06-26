@@ -9,19 +9,41 @@ First run: downloads ~400MB model from Hugging Face (cached after that).
 """
 
 # pyrefly: ignore [missing-import]
-from transformers import ViTForImageClassification, ViTImageProcessor
+try:
+    from transformers import ViTForImageClassification, ViTImageProcessor
+    import torch
+except Exception as exc:
+    ViTForImageClassification = None
+    ViTImageProcessor = None
+    torch = None
+    _IMPORT_ERROR = exc
+else:
+    _IMPORT_ERROR = None
+
 from PIL import Image
-import torch
 import io
 import json
 
 MODEL_NAME = "google/vit-base-patch16-224"
 
 print("[ForgeShield ViT] Loading model... (first run downloads ~400MB)")
-_processor = ViTImageProcessor.from_pretrained(MODEL_NAME)
-_model     = ViTForImageClassification.from_pretrained(MODEL_NAME)
-_model.eval()
-print("[ForgeShield ViT] Model ready [OK]")
+_processor = None
+_model = None
+
+if ViTImageProcessor is not None and ViTForImageClassification is not None and torch is not None:
+    try:
+        _processor = ViTImageProcessor.from_pretrained(MODEL_NAME)
+        _model     = ViTForImageClassification.from_pretrained(MODEL_NAME)
+        _model.eval()
+        print("[ForgeShield ViT] Model ready [OK]")
+    except Exception as exc:
+        print(f"[ForgeShield ViT] Model load failed: {exc}")
+        _processor = None
+        _model = None
+else:
+    print("[ForgeShield ViT] transformers/torch not available; using fallback mode")
+    if _IMPORT_ERROR is not None:
+        print(f"[ForgeShield ViT] Import error: {_IMPORT_ERROR}")
 
 
 def analyze_document(file_bytes: bytes, filename: str = "") -> dict:
@@ -37,6 +59,18 @@ def analyze_document(file_bytes: bytes, filename: str = "") -> dict:
             "verdict":    "ERROR — Cannot read image file",
             "confidence": 0,
             "details":    json.dumps({"error": str(e)})
+        }
+
+    if _processor is None or _model is None or torch is None:
+        return {
+            "risk_score": 35,
+            "verdict": "FALLBACK — AI model unavailable, using safe heuristic result",
+            "confidence": 40,
+            "details": json.dumps({
+                "model": MODEL_NAME,
+                "fallback": True,
+                "message": "transformers/torch not available in this environment"
+            })
         }
 
     inputs = _processor(images=image, return_tensors="pt")
