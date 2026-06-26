@@ -1,0 +1,6 @@
+{
+  "name": "NetraAI Audit Trail",
+  "description": "An interactive, immutable cryptographic audit stream for security and compliance, featuring a neo-brutalist dashboard with live-updating ledger logs, real-time indicators, and detailed block analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
