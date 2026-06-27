@@ -100,11 +100,11 @@ def get_regulatory_reference(department: str, circular_source: str) -> str:
 
     if dept == "credit" and source == "RBI":
         return "RBI Master Direction on Prudential Norms — Section 4 | Banking Regulation Act 1949 S.21"
-    if dept == "IT" and source == "SEBI":
+    if dept == "it" and source == "SEBI":
         return "SEBI Cybersecurity Framework 2024 — Circular SEBI/HO/ITD/1/2024"
-    if dept == "IT" and source == "RBI":
+    if dept == "it" and source == "RBI":
         return "RBI IT Framework for Banks 2011 — Section 7 (Cybersecurity)"
-    if dept == "AML" and source == "RBI":
+    if dept == "aml" and source == "RBI":
         return "RBI Master Circular on KYC/AML — PMLA 2002 Section 12"
     if dept == "retail" and source == "RBI":
         return "RBI Master Direction on KYC 2016 — Section 16(b) Customer Due Diligence"

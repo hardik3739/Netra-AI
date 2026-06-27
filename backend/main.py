@@ -11,6 +11,14 @@ Run with:
   uvicorn main:app --reload
 """
 
+import sys
+from pathlib import Path
+
+# Ensure backend package imports work when running from the repo root.
+ROOT_DIR = Path(__file__).resolve().parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
@@ -188,7 +196,10 @@ Agentic regulatory intelligence system:
 # ─────────────────────────────────────────────────────────
 
 def _get_cors_origins():
-    origins = os.getenv("CORS_ORIGINS", "http://localhost:3000")
+    origins = os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173"
+    )
     return [origin.strip() for origin in origins.split(",") if origin.strip()]
 
 
