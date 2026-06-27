@@ -16,8 +16,7 @@ import RegPilotDashboard from "./components/RegPilotDashboard";
 import LoanDossier from "./pages/LoanDossier";
 import DashboardPage from "./pages/Dashboard";
 import FraudPatterns from "./pages/FraudPatterns";
-
-const API_BASE = (import.meta.env.VITE_API_BASE || "http://localhost:8000").replace(/\/$/, "");
+import API_BASE from "./config";
 
 export default function App() {
   // --- CORE APP STATES ---

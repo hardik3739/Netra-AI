@@ -186,22 +186,10 @@ Agentic regulatory intelligence system:
 # ─────────────────────────────────────────────────────────
 # Middleware
 # ─────────────────────────────────────────────────────────
+
 def _get_cors_origins():
-    raw_origins = os.getenv("CORS_ORIGINS", "")
-    if raw_origins:
-        return [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
-    return [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3001",
-        "http://localhost:3002",
-        "http://127.0.0.1:3002",
-        "http://localhost:3003",
-        "http://127.0.0.1:3003",
-        "http://localhost:5173",  # Vite dev server
-        "http://127.0.0.1:5173",
-    ]
+    origins = os.getenv("CORS_ORIGINS", "http://localhost:3000")
+    return [origin.strip() for origin in origins.split(",") if origin.strip()]
 
 
 app.add_middleware(
