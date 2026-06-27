@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "netraai-frontend",
   "packageManager": "npm@10",
   "private": true,
   "version": "0.0.0",
@@ -9,9 +9,9 @@
     "npm": ">=10"
   },
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "npm exec vite build",
-    "preview": "npm exec vite preview",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
   },
